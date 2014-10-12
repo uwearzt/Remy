@@ -1,3 +1,8 @@
+// ------------------------------------------------------------------------------
+// Copyright by Uwe Arzt mailto:mail@uwe-arzt.de, https://uwe-arzt.de
+// under BSD License, see https://uwe-arzt.de/bsd-license
+// ------------------------------------------------------------------------------
+
 // reading a wav file with associated speak events
 
 #include "speak_events.h"
@@ -35,8 +40,7 @@ int main(int argc, char* argv[]) {
 
     try
     {
-      //po::store(po::parse_command_line(argc, argv, options), vm);
-      po::store(po::command_line_parser(argc, argv).options(options) 
+      po::store(po::command_line_parser(argc, argv).options(options)
                 .positional(pos_options).run(), vm);
       po::notify(vm);
 
@@ -69,33 +73,33 @@ int main(int argc, char* argv[]) {
   }
 
   std::ifstream wav_file;
-	std::ifstream::pos_type file_size;
+  std::ifstream::pos_type file_size;
 
-	wav_file.open(filename, std::ios::in|std::ios::binary|std::ios::ate);
+  wav_file.open(filename, std::ios::in|std::ios::binary|std::ios::ate);
   if(!wav_file.good()) {
      std::cerr << "Failed to open file: " << filename << std::endl;
      return 1;
   }
 
-	char* file_data;
+  char* file_data;
 
   // -----------------------------------------------------------------------------------
   // Check file size
-	file_size = wav_file.tellg();
+  file_size = wav_file.tellg();
   if(wav_format) {
-	 std::cout << "file_size:: " << file_size << std::endl;
+  std::cout << "file_size:: " << file_size << std::endl;
   }
-	wav_file.seekg(0, std::ios::beg);
+  wav_file.seekg(0, std::ios::beg);
 
   // -----------------------------------------------------------------------------------
   // read WAV header
   struct ChunkID {
     char ckID[4];
     uint32_t cksize;
- 	  char WAVEID[4];
+    char WAVEID[4];
   };
-	ChunkID* wav_chunkid = new ChunkID;
-	wav_file.read((char*)wav_chunkid, sizeof(ChunkID));
+  ChunkID* wav_chunkid = new ChunkID;
+  wav_file.read((char*)wav_chunkid, sizeof(ChunkID));
   if(wav_format) {
     std::cout << "ChunkID.ckID: " << std::string(wav_chunkid->ckID, 4) << std::endl;
     std::cout << "ChunkID.cksize: " << wav_chunkid->cksize << std::endl;
@@ -118,15 +122,15 @@ int main(int argc, char* argv[]) {
   // -----------------------------------------------------------------------------------
   // read WAV FORMAT header
   struct format {
- 	  uint16_t wFormatTag;
+    uint16_t wFormatTag;
     uint16_t nChannels;
     uint32_t nSamplesPerSec;
     uint32_t nAvgBytesPerSec;
     uint16_t nBlockAlign;
     uint16_t wBitsPerSample;
   };
-	format* wav_header = new format;
-	wav_file.read((char*)wav_header, sizeof(format));
+  format* wav_header = new format;
+  wav_file.read((char*)wav_header, sizeof(format));
   if(wav_format) {
     std::cout << "format.wFormatTag: " << wav_header->wFormatTag << std::endl;
     std::cout << "format.nChannels: " << wav_header->nChannels << std::endl;
@@ -193,11 +197,11 @@ int main(int argc, char* argv[]) {
     bytes_read += sizeof(s_event);
 
     if(list_visemes && event->eEventId == SPEI_VISEME) {
-      std::cout << "VISEME  " << std::setw(8)  << event->uAudioStreamOffset 
+      std::cout << "VISEME  " << std::setw(8)  << event->uAudioStreamOffset
                 << "  " << viseme_to_str(event->lParam) << std::endl;
     }
     if(list_phonemes && event->eEventId == SPEI_PHONEME) {
-      std::cout << "PHONEME " << std::setw(8) << event->uAudioStreamOffset 
+      std::cout << "PHONEME " << std::setw(8) << event->uAudioStreamOffset
                 << "  " << phoneme_to_str(event->lParam) << std::endl;
     }
 
