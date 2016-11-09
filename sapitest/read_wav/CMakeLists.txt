@@ -1,9 +1,10 @@
 project(read_wav)
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.4)
 
-set(CMAKE_CXX_FLAGS -std=c++1y)
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++1y)
 
-find_package(Boost 1.55.0 COMPONENTS program_options REQUIRED)
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost 1.62.0 COMPONENTS program_options REQUIRED) 
 include_directories(${Boost_INCLUDE_DIRS})
 
 set(READ_WAV_HDR
