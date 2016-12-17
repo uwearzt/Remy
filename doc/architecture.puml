@@ -1,0 +1,22 @@
+@startuml 
+
+package "Win" {
+  interface IMAP
+  interface SAPI
+  IMAP <.. [RemyServer]
+  SAPI <.. [RemyServer]
+}
+
+package "Remy" {
+  interface Motor
+  interface LEDMatrix
+  interface Speaker
+  interface Button
+  Motor <.. [Remy]
+  LEDMatrix <.. [Remy]
+  Speaker <.. [Remy]
+  Button ..> [Remy]
+}
+
+[RemyServer] --> [Remy] : Ethernet
+@enduml
