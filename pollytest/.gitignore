@@ -1,0 +1,4 @@
+*.json
+*.ogg
+Cargo.lock
+target/

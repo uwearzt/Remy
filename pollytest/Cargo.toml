@@ -1,0 +1,9 @@
+[package]
+name = "pollytest"
+version = "0.1.0"
+authors = ["Uwe Arzt <mail@uwe-arzt.de>"]
+edition = "2018"
+
+[dependencies]
+rusoto_core = "0.36.0"
+rusoto_polly = "0.36.0"
